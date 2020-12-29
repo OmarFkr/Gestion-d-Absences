@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 public class Semestre implements Serializable {
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue @Column(name = "id_semestre")
 	private Long idSemeste;
 	private String nom;
 	private static final long serialVersionUID = 1L;

@@ -3,7 +3,6 @@ package upf.ac.ma.entity;
 import java.io.Serializable;
 import java.lang.Long;
 import java.util.Date;
-
 import javax.persistence.*;
 
 /**

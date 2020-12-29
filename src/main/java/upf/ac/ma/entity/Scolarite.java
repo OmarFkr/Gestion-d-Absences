@@ -16,7 +16,7 @@ public class Scolarite extends Compte implements Serializable {
 
 	   
 	//@Id DOES NOT WORK
-	private Long idScolarite;
+	//private Long idScolarite;
 	private static final long serialVersionUID = 1L;
 
 	public Scolarite() {
@@ -29,11 +29,11 @@ public class Scolarite extends Compte implements Serializable {
 	}
 	
 	public Long getIdScolarite() {
-		return this.idScolarite;
+		return super.getIdCompte();
 	}
 
 	public void setIdScolarite(Long idScolarite) {
-		this.idScolarite = idScolarite;
+		super.setIdCompte(idScolarite);
 	}
    
 }

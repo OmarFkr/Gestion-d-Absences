@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 public class EmploiDuTemps implements Serializable {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue @Column(name = "id_emploi")
 	private Long idEmploi;
 	@OneToMany @JoinColumn
 	private List<Seance>seances;

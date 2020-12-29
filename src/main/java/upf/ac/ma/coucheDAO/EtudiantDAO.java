@@ -15,7 +15,7 @@ public class EtudiantDAO {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void ajouter(Etudiant e )
+	public void ajouter(Etudiant e)
 	{
 		em.getTransaction().begin();
 		em.persist(e);

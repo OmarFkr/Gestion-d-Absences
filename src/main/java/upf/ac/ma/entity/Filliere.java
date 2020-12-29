@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 public class Filliere implements Serializable {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue @Column(name = "id_filliere")
 	private Long idFilliere;
 	private String nom;
 	

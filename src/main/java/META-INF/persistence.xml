@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
-	<persistence-unit name="gestionAbsences" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="Gestion_d_Absences">
+	<!--   <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
+	<provider>org.hibernate.ejb.HibernatePersistence</provider>
+	
 		<class>upf.ac.ma.entity.Promotion</class>
 		<class>upf.ac.ma.entity.Filliere</class>
 		<class>upf.ac.ma.entity.Module</class>
@@ -15,15 +18,15 @@
 				value="jdbc:mysql://localhost:1998/jpa_e_db?zeroDateTimeBehavior=convertToNull" />
 			-->
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3308/gestion_absence?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
+				value="jdbc:mysql://localhost:3308/gestion_d_absences?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC" />
 			<property name="javax.persistence.jdbc.user" value="root" />
 			<property name="javax.persistence.jdbc.driver"
 				value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.password" value="" />
 			
-			<!-- First run 
+			<!-- First run -->
 			<property name="eclipselink.ddl-generation" value="create-tables"/>
-			-->
+			
 			
 			<!-- Second run 
 			<property name="eclipselink.ddl-generation" value="none"/>

@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 public class Absence implements Serializable {
 	
-	@Id @GeneratedValue
+	@Id @GeneratedValue @Column(name = "id_absence")
 	private Long idAbsence;
 	@ManyToOne @JoinColumn
 	private Seance seance;

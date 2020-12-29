@@ -16,13 +16,14 @@ import javax.persistence.*;
 
 public abstract class Compte implements Serializable {
 	   
-	@Id @GeneratedValue
+	@Id @GeneratedValue @Column(name = "id_compte")
 	private Long idCompte;
 	private String nom;
 	private String prenom;
 	private String email;
+	@Column(name = "mot_de_pass")
 	private String motDePasse;
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.DATE) @Column(name = "date_naissance")
 	private Date dateNaissance;
 	private static final long serialVersionUID = 1L;
 

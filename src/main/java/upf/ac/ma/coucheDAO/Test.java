@@ -1,6 +1,7 @@
 package upf.ac.ma.coucheDAO;
 
-import upf.ac.ma.entity.Absence;
+import java.util.Date;
+import upf.ac.ma.entity.Etudiant;
 
 public class Test {
 
@@ -10,8 +11,12 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		AbsenceDAO abs = new AbsenceDAO();
-		Absence ab = new Absence();
+		//AbsenceDAO abs = new AbsenceDAO();
+		//Absence ab = new Absence();
+		
+		Etudiant e = new Etudiant("187AS", "FAKIR", "OMAR", "omar@", "password", new Date(1996,10,05));
+		EtudiantDAO eDAO = new EtudiantDAO();
+		eDAO.ajouter(e);
 				
 	}
 

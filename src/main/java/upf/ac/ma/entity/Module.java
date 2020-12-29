@@ -11,7 +11,7 @@ import javax.persistence.*;
 
 public class Module implements Serializable {
 
-	@Id @GeneratedValue
+	@Id @GeneratedValue @Column(name = "id_module")
 	private Long idModule;
 	private String nom;
 	@ManyToOne @JoinColumn

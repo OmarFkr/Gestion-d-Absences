@@ -2,7 +2,13 @@ package upf.ac.ma.coucheDAO;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,7 +32,7 @@ public class AbsenceDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	void classementAbsenceClasse(int idEtudiant, String filiere, Date promotion) {
+	public int classementAbsenceClasse(Long idEtudiant, String filiere, Date promotion) {
 		
 		Promotion promo    = (Promotion) em.createQuery("SELECT id FROM promotion WHERE date="+promotion).getResultList();
 		Filliere filiere_  = (Filliere) em.createQuery("SELECT * FROM filliere WHERE nom="+filiere+"AND id_promotion="+promo).getResultList();
@@ -43,6 +49,36 @@ public class AbsenceDAO {
 		{
 			lsta.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
 		}
+		
+		//RECUPERER LES IDs
+		Set<Long> ids = new HashSet<Long>();
+		for (Absence absence: lsta) {
+			ids.add(absence.getEtudiant().getIdEtudiant());
+		}
+		
+		//DEFINIR LES MAP
+		Map<Long, Integer> id_nbr_a=new LinkedHashMap<Long, Integer>();  
+		TreeMap<Long, Integer> id_nbr_a_sorted = new TreeMap<Long, Integer>();
+		
+		//RECUPERE LES IDS DES ETUDIANTS ET LE NOMBRE DABSENCE 
+		for (Long id : ids) {
+			int nbr_a = 0;
+			for (Absence absence: lsta) {
+				if (id == absence.getEtudiant().getIdEtudiant())
+				{	nbr_a++; }
+				id_nbr_a.put(id, nbr_a);
+			}	
+		}
+		
+		//SORT BY NOMBRE DABSENCE 
+		id_nbr_a.entrySet()
+	    .stream()
+	    .sorted(Map.Entry.comparingByValue())
+	    .forEachOrdered(x -> id_nbr_a_sorted.put(x.getKey(), x.getValue()));
+		
+		int classement = id_nbr_a_sorted.headMap(idEtudiant).size();
+		
+		return classement;
 	}
 	
 	

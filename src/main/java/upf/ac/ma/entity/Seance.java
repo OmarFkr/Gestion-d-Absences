@@ -13,7 +13,7 @@ import javax.persistence.*;
 
 public class Seance implements Serializable {
 
-	@Id
+	@Id @Column(name = "id_seance")
 	private Long idSeance;
 	private String jour;
 	@Temporal(TemporalType.TIME)

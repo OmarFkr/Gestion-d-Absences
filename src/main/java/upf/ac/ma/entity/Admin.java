@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Admin implements Serializable {
 
 	   
-	@Id
+	@Id  @Column(name = "id_admin")
 	private Long idAdmin;
 	private static final long serialVersionUID = 1L;
 
