@@ -14,8 +14,8 @@ import javax.persistence.*;
 @DiscriminatorValue("Enseignant")
 public class Enseignant extends Compte implements Serializable {
 
-	//@Id DOES NOT WORK 
-	private Long idEnseignant;
+	//@Id
+	//private Long idEnseignant;
 	private static final long serialVersionUID = 1L;
 	@OneToOne @JoinColumn
 	private EmploiDuTemps emploiDuTemps;
@@ -23,16 +23,17 @@ public class Enseignant extends Compte implements Serializable {
 		super();
 	}   
 	
+	
 	public Long getIdEnseignant() {
-		return this.idEnseignant;
+		return super.getIdCompte();
 	}
 
 	public void setIdEnseignant(Long idEnseignant) {
-		this.idEnseignant = idEnseignant;
+		super.setIdCompte(idEnseignant);
 	}
 	
 	public Enseignant(String nom, String prenom, String email, String motDePasse, Date dateNaissance) {
-		super(nom, prenom, email, motDePasse, dateNaissance);
+		//super(nom, prenom, email, motDePasse, dateNaissance);
 		// TODO Auto-generated constructor stub
 	}
 	

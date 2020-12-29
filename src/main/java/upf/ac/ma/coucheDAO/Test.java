@@ -1,8 +1,5 @@
 package upf.ac.ma.coucheDAO;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import upf.ac.ma.entity.Absence;
 
 public class Test {
@@ -13,9 +10,9 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
-		List<Absence> lst = new ArrayList<>();
-		
+		AbsenceDAO abs = new AbsenceDAO();
+		Absence ab = new Absence();
+				
 	}
 
 }

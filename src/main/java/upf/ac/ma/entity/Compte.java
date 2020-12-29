@@ -10,16 +10,14 @@ import javax.persistence.*;
  * Entity implementation class for Entity: Compte
  *
  */
-@Entity
 @MappedSuperclass
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="Role")
 
-public class Compte implements Serializable {
-
+public abstract class Compte implements Serializable {
 	   
 	@Id @GeneratedValue
-	private Long id;
+	private Long idCompte;
 	private String nom;
 	private String prenom;
 	private String email;
@@ -32,13 +30,15 @@ public class Compte implements Serializable {
 		super();
 	}
 
-	public Long getId() {
-		return id;
+
+	public Long getIdCompte() {
+		return idCompte;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdCompte(Long idCompte) {
+		this.idCompte = idCompte;
 	}
+
 
 	public String getNom() {
 		return nom;

@@ -45,12 +45,14 @@ public class AbsenceDAO {
 		}
 	}
 	
+	
 	List<Absence> getAllAbsences(Etudiant e)
 	{
 		@SuppressWarnings("unchecked")
 		List<Absence> lstAbs = em.createQuery("SELECT * FROM absence WHERE id_etudiant="+e.getIdEtudiant()).getResultList();
 		return lstAbs;
 	}
+	
 	
 	@SuppressWarnings("unchecked")
 	List<Absence> getAbsencesSemestre(String semestre)
@@ -92,7 +94,7 @@ public class AbsenceDAO {
 	}
 	
 	
-	public void create(Absence a)
+	public void ajouter(Absence a)
 	{
 		
 		em.getTransaction().begin();
@@ -100,14 +102,14 @@ public class AbsenceDAO {
 		em.getTransaction().commit();
 	}
 	
-	public Absence read(Long id)
+	public Absence recuperer(Long id)
 	{
 		
 		Absence a = em.find(Absence.class, id);
 		return a;
 	}
 	
-	public void update(Absence a)
+	public void mettreAjour(Absence a)
 	{
 		
 		Absence ab = em.find(Absence.class, a.getIdAbsence());
@@ -120,7 +122,7 @@ public class AbsenceDAO {
 		em.getTransaction().commit();
 	}
 	
-	public void delete(Absence a)
+	public void supprimer(Absence a)
 	{
 		
 		Absence ab = em.find(Absence.class, a.getIdAbsence());
