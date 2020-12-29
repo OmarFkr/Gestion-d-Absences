@@ -1,6 +1,7 @@
 package upf.ac.ma.coucheDAO;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,9 +10,11 @@ import javax.persistence.Persistence;
 
 import upf.ac.ma.entity.Absence;
 import upf.ac.ma.entity.Etudiant;
+import upf.ac.ma.entity.Filliere;
 import upf.ac.ma.entity.Seance;
 import upf.ac.ma.entity.Semestre;
 import upf.ac.ma.entity.Module;
+import upf.ac.ma.entity.Promotion;
 
 public class AbsenceDAO {
 
@@ -20,6 +23,26 @@ public class AbsenceDAO {
 	
 	public AbsenceDAO() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	@SuppressWarnings("unchecked")
+	void classementAbsenceClasse(int idEtudiant, String filiere, Date promotion) {
+		
+		Promotion promo    = (Promotion) em.createQuery("SELECT id FROM promotion WHERE date="+promotion).getResultList();
+		Filliere filiere_  = (Filliere) em.createQuery("SELECT * FROM filliere WHERE nom="+filiere+"AND id_promotion="+promo).getResultList();
+		List<Module> lstm  = em.createQuery("SELECT * FROM module WHERE id_filiere="+filiere_.getIdFilliere()).getResultList();
+		//RECUPERE LES SEANCES DES MODULES
+		List<Seance> lsts = new ArrayList<Seance>();
+		for (Module module : lstm)
+		{
+			lsts.addAll(em.createQuery("SELECT * FROM seance WHERE id_module="+module.getIdModule()).getResultList());
+		}
+		//RECUPERER LES ABSENCES DES SEANCES DES ETUDIANTS DU PROMO
+		List<Absence> lsta = new ArrayList<Absence>();
+		for (Seance seance : lsts)
+		{
+			lsta.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
+		}
 	}
 	
 	List<Absence> getAllAbsences(Etudiant e)

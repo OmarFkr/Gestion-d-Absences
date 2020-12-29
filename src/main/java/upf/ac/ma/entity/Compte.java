@@ -1,6 +1,7 @@
 package upf.ac.ma.entity;
 
 import java.io.Serializable;
+import java.lang.Long;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -10,9 +11,13 @@ import javax.persistence.*;
  *
  */
 @Entity
+@MappedSuperclass
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="Role")
 
 public class Compte implements Serializable {
 
+	   
 	@Id @GeneratedValue
 	private Long id;
 	private String nom;
@@ -85,5 +90,5 @@ public class Compte implements Serializable {
 		this.dateNaissance = dateNaissance;
 	}
 	
-	
+   
 }

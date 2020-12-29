@@ -9,7 +9,7 @@ import javax.persistence.*;
  *
  */
 @Entity
-
+@DiscriminatorValue("Admin")
 public class Admin implements Serializable {
 
 	   

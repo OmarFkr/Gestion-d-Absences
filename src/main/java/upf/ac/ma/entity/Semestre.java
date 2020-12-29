@@ -19,7 +19,12 @@ public class Semestre implements Serializable {
 	public Semestre() {
 		super();
 	}
-
+	
+	public Semestre(String nom) {
+		super();
+		this.nom = nom;
+	}
+	
 	public Long getIdSemeste() {
 		return idSemeste;
 	}
