@@ -14,6 +14,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import upf.ac.ma.entity.Absence;
 import upf.ac.ma.entity.Etudiant;
 import upf.ac.ma.entity.Filliere;
@@ -27,32 +29,52 @@ public class AbsenceDAO {
 	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Gestion_d_Absences");
 	EntityManager em 		 = emf.createEntityManager();
 	
+	@Autowired
+	AbsenceRepository absenceRepo;
+	@Autowired
+	ModuleRepository moduleRepo;
+	@Autowired
+	SeanceRepository seanceRepo;
+	@Autowired
+	SemestreRepository semestreRepo;
+	@Autowired
+	PromotionRepository promotionRepo;
+	@Autowired
+	FilliereRepository filliereRepo;
+	
 	public AbsenceDAO() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	public int classementAbsenceClasse(Long idEtudiant, String filiere, Date promotion) {
 		
-		Promotion promo    = (Promotion) em.createQuery("SELECT id FROM promotion WHERE date="+promotion).getResultList();
-		Filliere filiere_  = (Filliere) em.createQuery("SELECT * FROM filliere WHERE nom="+filiere+"AND id_promotion="+promo).getResultList();
-		List<Module> lstm  = em.createQuery("SELECT * FROM module WHERE id_filiere="+filiere_.getIdFilliere()).getResultList();
+		//Promotion promo    = (Promotion) em.createQuery("SELECT id FROM promotion WHERE date="+promotion).getResultList();
+		Long idPromo = promotionRepo.findIdByDate(promotion);
+		
+		//Filliere filiere_  = (Filliere) em.createQuery("SELECT * FROM filliere WHERE nom="+filiere+"AND id_promotion="+idPromo).getResultList();
+		Filliere filiere_ = filliereRepo.findByNomAndIdPromo(filiere,idPromo);
+		
+		//List<Module> lstm  = em.createQuery("SELECT * FROM module WHERE id_filiere="+filiere_.getIdFilliere()).getResultList();
+		List<Module> listModules  = moduleRepo.findByIdFilliere(filiere_.getIdFilliere());
 		//RECUPERE LES SEANCES DES MODULES
-		List<Seance> lsts = new ArrayList<Seance>();
-		for (Module module : lstm)
+		List<Seance> listSeances = new ArrayList<Seance>();
+		for (Module module : listModules)
 		{
-			lsts.addAll(em.createQuery("SELECT * FROM seance WHERE id_module="+module.getIdModule()).getResultList());
+			//listSeances.addAll(em.createQuery("SELECT * FROM seance WHERE id_module="+module.getIdModule()).getResultList());
+			listSeances.addAll(seanceRepo.findAllByIdModule(module.getIdModule()));
 		}
 		//RECUPERER LES ABSENCES DES SEANCES DES ETUDIANTS DU PROMO
-		List<Absence> lsta = new ArrayList<Absence>();
-		for (Seance seance : lsts)
+		List<Absence> listAbsences = new ArrayList<Absence>();
+		for (Seance seance : listSeances)
 		{
-			lsta.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
+			//listAbsences.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
+			listAbsences.addAll(absenceRepo.findAllByIdSeance(seance.getIdSeance()));
 		}
 		
 		//RECUPERER LES IDs
 		Set<Long> ids = new HashSet<Long>();
-		for (Absence absence: lsta) {
+		for (Absence absence: listAbsences) {
 			ids.add(absence.getEtudiant().getIdEtudiant());
 		}
 		
@@ -63,7 +85,7 @@ public class AbsenceDAO {
 		//RECUPERE LES IDS DES ETUDIANTS ET LE NOMBRE DABSENCE 
 		for (Long id : ids) {
 			int nbr_a = 0;
-			for (Absence absence: lsta) {
+			for (Absence absence: listAbsences) {
 				if (id == absence.getEtudiant().getIdEtudiant())
 				{	nbr_a++; }
 				id_nbr_a.put(id, nbr_a);
@@ -84,49 +106,61 @@ public class AbsenceDAO {
 	
 	List<Absence> getAllAbsences(Etudiant e)
 	{
-		@SuppressWarnings("unchecked")
-		List<Absence> lstAbs = em.createQuery("SELECT * FROM absence WHERE id_etudiant="+e.getIdEtudiant()).getResultList();
-		return lstAbs;
+		//@SuppressWarnings("unchecked")
+		//List<Absence> listAbsences = em.createQuery("SELECT * FROM absence WHERE id_etudiant="+e.getIdEtudiant()).getResultList();
+		List<Absence> listAbsences = absenceRepo.findAllByIdEtudiant(e.getIdEtudiant());
+		return listAbsences;
 	}
 	
 	
-	@SuppressWarnings("unchecked")
+	//@SuppressWarnings("unchecked")
 	List<Absence> getAbsencesSemestre(String semestre)
 	{
 		//RECUPERER LE SEMESTRE
-		Semestre s        = (Semestre) em.createQuery("SELECT * FROM semestre WHERE nom="+semestre).getResultList();
+		//Semestre s        = (Semestre) em.createQuery("SELECT * FROM semestre WHERE nom="+semestre).getResultList();
+		Long id_semestre = semestreRepo.findId(semestre);
 		//RECUPERER LES MODULES ENSEIGNER DANS LE SEMESTRE
-		List<Module> lstm = em.createQuery("SELECT * FROM module WHERE id_semstre="+s.getIdSemeste()).getResultList();
+		//List<Module> lstm = em.createQuery("SELECT * FROM module WHERE id_semstre="+id_semestre).getResultList();
+		List<Module> listModules = moduleRepo.findByIdSemestre(id_semestre);
 		//RECUPERE LES SEANCES DES MODULES
-		List<Seance> lsts = new ArrayList<Seance>();
-		for (Module module : lstm)
+		List<Seance> listSceances = new ArrayList<Seance>();
+		for (Module module : listModules)
 		{
-			lsts.addAll(em.createQuery("SELECT * FROM seance WHERE id_module="+module.getIdModule()).getResultList());
+			//listSceances.addAll(em.createQuery("SELECT * FROM seance WHERE id_module="+module.getIdModule()).getResultList());
+			listSceances.addAll(seanceRepo.findAllByIdModule(module.getIdModule()));	
 		}
 		//RECUPERER LES ABSENCES DES SEANCES
-		List<Absence> lsta = new ArrayList<Absence>();
-		for (Seance seance : lsts)
+		List<Absence> listAbsences = new ArrayList<Absence>();
+		for (Seance seance : listSceances)
 		{
-			lsta.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
+			//listAbsences.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
+			listAbsences.addAll(absenceRepo.findAllByIdSeance(seance.getIdSeance()));
 		}
 			
-		return lsta;
+		return listAbsences;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	List<Absence> getAbsencesModule(String nomModule) {
 		
-		List<Seance> lsts = new ArrayList<Seance>();
-		int id_module = em.createQuery("SELECT id_module FROM module WHERE nom="+nomModule).getFirstResult();
-		lsts.addAll(em.createQuery("SELECT * FROM seance WHERE id_module="+id_module).getResultList());
+		List<Seance> listSeances = new ArrayList<Seance>();
+		//int id_module = em.createQuery("SELECT id_module FROM module WHERE nom="+nomModule).getFirstResult();
+		
+		Long id_module = moduleRepo.findId(nomModule);
+		
+		//lsts.addAll(em.createQuery("SELECT * FROM seance WHERE id_module="+id_module).getResultList());
+		
+		listSeances.addAll(seanceRepo.findAllByIdModule(id_module));
+		
 		//RECUPERER LES ABSENCES DES SEANCES
-		List<Absence> lsta = new ArrayList<Absence>();
-		for (Seance seance : lsts)
+		List<Absence> listAbsence = new ArrayList<Absence>();
+		
+		for (Seance seance : listSeances)
 		{
-			lsta.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
+			//listAbsence.addAll(em.createQuery("SELECT * FROM absence WHERE id_seance="+seance.getIdSeance()).getResultList());
+			listAbsence.addAll(absenceRepo.findAllByIdSeance(seance.getIdSeance()));
 		}
 			
-		return lsta;
+		return listAbsence;
 	}
 	
 	
