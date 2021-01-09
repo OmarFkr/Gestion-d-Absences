@@ -3,14 +3,18 @@
 	<persistence-unit name="Gestion_d_Absences" transaction-type="RESOURCE_LOCAL">
 	<!--   <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider> -->
 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-	
+		<class>upf.ac.ma.entity.Etudiant</class>
 		<class>upf.ac.ma.entity.Promotion</class>
 		<class>upf.ac.ma.entity.Filliere</class>
 		<class>upf.ac.ma.entity.Module</class>
 		<class>upf.ac.ma.entity.Semestre</class>
 		<class>upf.ac.ma.entity.Absence</class>
 		<class>upf.ac.ma.entity.Seance</class>
-		<class>upf.ac.ma.entity.EmploiDuTemps</class>
+		<class>upf.ac.ma.entity.EmploiDuTemps</class>	
+		<class>upf.ac.ma.entity.Enseignant</class>
+		<class>upf.ac.ma.entity.Admin</class>
+		<class>upf.ac.ma.entity.Compte</class>
+		<class>upf.ac.ma.entity.Scolarite</class>
 		
 		<properties>
 		<!--  

@@ -8,7 +8,7 @@ import upf.ac.ma.entity.Semestre;
 
 public interface SemestreRepository extends JpaRepository<Semestre, Long>{
 	
-	@Query("SELECT id_semestre FROM semestre WHERE nom = :nomSemestre")
+	@Query("SELECT s.id FROM Semestre s WHERE s.nom = :nomSemestre")
 	Long findId(@Param("nomSemestre") String nomSemestre);
 
 }

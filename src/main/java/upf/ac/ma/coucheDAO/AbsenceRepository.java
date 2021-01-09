@@ -10,9 +10,10 @@ import upf.ac.ma.entity.Absence;
 
 public interface AbsenceRepository extends JpaRepository<Absence, Long> {
 	
-	@Query("SELECT * FROM absence WHERE id_seance= :idSeance")
+	//@Query("select a from Absence a inner join a.etudiant e where e.id =:x")
+	@Query("SELECT a FROM Absence a inner join a.seance s WHERE s.id =:idSeance")
 	List<Absence> findAllByIdSeance(@Param("idSeance") Long idSeance);
 	
-	@Query("SELECT * FROM absence WHERE id_etudiant= :idEtudiant")
+	@Query("SELECT a FROM Absence a inner join a.etudiant e WHERE e.id =:idEtudiant")
 	List<Absence> findAllByIdEtudiant(@Param("idEtudiant") Long idEtudiant);
 }

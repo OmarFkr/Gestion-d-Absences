@@ -46,10 +46,60 @@ public class AbsenceDAO {
 		// TODO Auto-generated constructor stub
 	}
 	
+	public int classementAbsenceModule(Long idEtudiant, String filiere, Date promotion, String module)
+	{
+		Long idPromo      = promotionRepo.findIdByDate(promotion);
+		Filliere filiere_ = promotionRepo.findFilliereByIdAndNomF(idPromo, filiere);
+		Module   module_  = moduleRepo.findByNom(module);
+		
+		//RECUPERE LES SEANCES DES MODULES
+		List<Seance> listSeances = new ArrayList<Seance>();
+		listSeances.addAll(seanceRepo.findAllByIdModule(module_.getIdModule()));
+		
+		//RECUPERER LES ABSENCES DES SEANCES DES ETUDIANTS DU PROMO DANS UN MODULE 
+		List<Absence> listAbsences = new ArrayList<Absence>();
+		for (Seance seance : listSeances)
+		{
+			listAbsences.addAll(absenceRepo.findAllByIdSeance(seance.getIdSeance()));
+		}
+		
+		
+		//RECUPERER LES IDs
+		Set<Long> ids = new HashSet<Long>();
+		for (Absence absence: listAbsences) {
+			ids.add(absence.getEtudiant().getId());
+		}
+		
+		//DEFINIR LES MAP
+		Map<Long, Integer> id_nbr_a=new LinkedHashMap<Long, Integer>();  
+		TreeMap<Long, Integer> id_nbr_a_sorted = new TreeMap<Long, Integer>();
+		
+		//RECUPERE LES IDS DES ETUDIANTS ET LE NOMBRE DABSENCE 
+		for (Long id : ids) {
+			int nbr_a = 0;
+			for (Absence absence: listAbsences) {
+				if (id == absence.getEtudiant().getId())
+				{	nbr_a++; }
+				id_nbr_a.put(id, nbr_a);
+			}	
+		}
+		
+		//SORT BY NOMBRE DABSENCE 
+		id_nbr_a.entrySet()
+	    .stream()
+	    .sorted(Map.Entry.comparingByValue())
+	    .forEachOrdered(x -> id_nbr_a_sorted.put(x.getKey(), x.getValue()));
+		
+		int classement = id_nbr_a_sorted.headMap(idEtudiant).size();
+		
+		return classement;
+		
+	}
+	
 	public int classementAbsenceClasse(Long idEtudiant, String filiere, Date promotion) {
 		
 		Long idPromo = promotionRepo.findIdByDate(promotion);
-		Filliere filiere_ = filliereRepo.findByNomAndIdPromo(filiere,idPromo);		
+		Filliere filiere_ = promotionRepo.findFilliereByIdAndNomF(idPromo, filiere);
 		List<Module> listModules  = moduleRepo.findByIdFilliere(filiere_.getIdFilliere());
 		
 		//RECUPERE LES SEANCES DES MODULES
@@ -149,39 +199,20 @@ public class AbsenceDAO {
 	
 	public void ajouter(Absence a)
 	{
-		
-		em.getTransaction().begin();
-		em.persist(a);
-		em.getTransaction().commit();
+		absenceRepo.save(a);
 	}
 	
 	public Absence recuperer(Long id)
 	{
 		
-		Absence a = em.find(Absence.class, id);
-		return a;
+		return absenceRepo.findById(id).get();
 	}
 	
-	public void mettreAjour(Absence a)
-	{
-		
-		Absence ab = em.find(Absence.class, a.getIdAbsence());
-		em.getTransaction().begin();
-		em.remove(ab);
-		em.getTransaction().commit();
-		
-		em.getTransaction().begin();
-		em.persist(a);
-		em.getTransaction().commit();
-	}
 	
 	public void supprimer(Absence a)
 	{
 		
-		Absence ab = em.find(Absence.class, a.getIdAbsence());
-		em.getTransaction().begin();
-		em.remove(ab);
-		em.getTransaction().commit();
+		absenceRepo.delete(a);
 	}
 	
 	
