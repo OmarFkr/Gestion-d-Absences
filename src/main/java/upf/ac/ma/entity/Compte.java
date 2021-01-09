@@ -1,7 +1,6 @@
 package upf.ac.ma.entity;
 
 import java.io.Serializable;
-import java.lang.Long;
 import java.util.Date;
 
 import javax.persistence.*;
@@ -13,33 +12,27 @@ import javax.persistence.*;
 @MappedSuperclass
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="Role")
-
 public abstract class Compte implements Serializable {
-	   
-	@Id @GeneratedValue @Column(name = "id_compte")
-	private Long idCompte;
+	 @Id
+	 @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
 	private String nom;
 	private String prenom;
 	private String email;
-	@Column(name = "mot_de_pass")
 	private String motDePasse;
-	@Temporal(TemporalType.DATE) @Column(name = "date_naissance")
 	private Date dateNaissance;
 	private static final long serialVersionUID = 1L;
-
 	public Compte() {
 		super();
 	}
 
-
-	public Long getIdCompte() {
-		return idCompte;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdCompte(Long idCompte) {
-		this.idCompte = idCompte;
+	public void setId(Long id) {
+		this.id = id;
 	}
-
 
 	public String getNom() {
 		return nom;
@@ -91,5 +84,5 @@ public abstract class Compte implements Serializable {
 		this.dateNaissance = dateNaissance;
 	}
 	
-   
+	
 }

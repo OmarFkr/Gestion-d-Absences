@@ -1,9 +1,7 @@
 package upf.ac.ma.entity;
 
 import java.io.Serializable;
-import java.lang.Long;
 import java.util.Date;
-
 import javax.persistence.*;
 
 /**
@@ -13,36 +11,26 @@ import javax.persistence.*;
 @Entity
 @DiscriminatorValue("Enseignant")
 public class Enseignant extends Compte implements Serializable {
-
-	//@Id
-	//private Long idEnseignant;
 	private static final long serialVersionUID = 1L;
-	@OneToOne @JoinColumn
+	@OneToOne(fetch = FetchType.LAZY, 
+		       cascade =
+	       {
+	    		   CascadeType.MERGE,
+	               CascadeType.REMOVE
+	       }) @JoinColumn
 	private EmploiDuTemps emploiDuTemps;
 	public Enseignant() {
 		super();
 	}   
-	
-	
-	public Long getIdEnseignant() {
-		return super.getIdCompte();
-	}
-
-	public void setIdEnseignant(Long idEnseignant) {
-		super.setIdCompte(idEnseignant);
-	}
-	
 	public Enseignant(String nom, String prenom, String email, String motDePasse, Date dateNaissance) {
-		//super(nom, prenom, email, motDePasse, dateNaissance);
+		super(nom, prenom, email, motDePasse, dateNaissance);
 		// TODO Auto-generated constructor stub
 	}
-	
 	public EmploiDuTemps getEmploiDuTemps() {
 		return emploiDuTemps;
 	}
-	
 	public void setEmploiDuTemps(EmploiDuTemps emploiDuTemps) {
 		this.emploiDuTemps = emploiDuTemps;
 	}
-   
+	
 }

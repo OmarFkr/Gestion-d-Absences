@@ -1,7 +1,6 @@
 package upf.ac.ma.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import javax.persistence.*;
 
@@ -13,20 +12,15 @@ import javax.persistence.*;
 
 public class Filliere implements Serializable {
 
-	@Id @GeneratedValue @Column(name = "id_filliere")
+	@Id @GeneratedValue
 	private Long idFilliere;
 	private String nom;
 	
 	private static final long serialVersionUID = 1L;
-
 	
 	public Filliere(String nom) {
 		super();
 		this.nom = nom;
-	}
-	
-	public Filliere() {
-		super();
 	}
 
 	public Long getIdFilliere() {
@@ -43,6 +37,10 @@ public class Filliere implements Serializable {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	public Filliere() {
+		super();
 	}
    
 }

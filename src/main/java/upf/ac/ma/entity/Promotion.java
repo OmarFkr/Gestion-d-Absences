@@ -15,20 +15,30 @@ public class Promotion implements Serializable {
 
 	@Id @GeneratedValue
 	private Long id;
-	@Temporal(TemporalType.DATE) @Column(name = "date_debut")
+	@Temporal(TemporalType.DATE)
 	private Date dateDebut;
-	@ManyToOne @JoinColumn
+	@ManyToOne(fetch = FetchType.EAGER, 
+		       cascade =
+	       {
+	    		   CascadeType.MERGE,
+	               CascadeType.REMOVE
+	       }) @JoinColumn
 	private Filliere filliere;
-	@OneToOne @JoinColumn 
-	private EmploiDuTemps emploi_du_temps;
+	@OneToOne(fetch = FetchType.EAGER, 
+		       cascade =
+	       {
+	    		   CascadeType.MERGE,
+	               CascadeType.REMOVE
+	       }) @JoinColumn
+	private EmploiDuTemps emploiDuTemps;
 	private static final long serialVersionUID = 1L;
 	
-
-	public Promotion(Date dateDebut, Filliere filliere, EmploiDuTemps emploiDuTemps) {
+	
+	public Promotion(Date dateDebut, Filliere filliere) {
 		super();
 		this.dateDebut = dateDebut;
 		this.filliere = filliere;
-		this.emploi_du_temps = emploiDuTemps;
+		this.emploiDuTemps = emploiDuTemps;
 	}
 
 
@@ -68,12 +78,13 @@ public class Promotion implements Serializable {
 
 
 	public EmploiDuTemps getEmploiDuTemps() {
-		return emploi_du_temps;
+		return emploiDuTemps;
 	}
 
 
 	public void setEmploiDuTemps(EmploiDuTemps emploiDuTemps) {
-		this.emploi_du_temps = emploiDuTemps;
+		this.emploiDuTemps = emploiDuTemps;
 	}
-   
+	
+	
 }

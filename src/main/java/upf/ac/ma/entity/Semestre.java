@@ -9,22 +9,17 @@ import javax.persistence.*;
  */
 @Entity
 
-public class Semestre implements Serializable {
-	
-	@Id @GeneratedValue @Column(name = "id_semestre")
+public class Semestre implements Serializable {	
+	@Id @GeneratedValue
 	private Long idSemeste;
 	private String nom;
 	private static final long serialVersionUID = 1L;
-
-	public Semestre() {
-		super();
-	}
 	
 	public Semestre(String nom) {
 		super();
 		this.nom = nom;
 	}
-	
+
 	public Long getIdSemeste() {
 		return idSemeste;
 	}
@@ -39,6 +34,10 @@ public class Semestre implements Serializable {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	public Semestre() {
+		super();
 	}
    
 }

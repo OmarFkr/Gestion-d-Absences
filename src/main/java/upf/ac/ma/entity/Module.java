@@ -11,17 +11,32 @@ import javax.persistence.*;
 
 public class Module implements Serializable {
 
-	@Id @GeneratedValue @Column(name = "id_module")
+	@Id @GeneratedValue
 	private Long idModule;
 	private String nom;
-	@ManyToOne @JoinColumn
+	@ManyToOne(fetch = FetchType.LAZY, 
+		       cascade =
+	       {
+	    		   CascadeType.MERGE,
+	               CascadeType.REMOVE
+	       }) @JoinColumn
 	private Filliere filliere;
-	@ManyToOne @JoinColumn
+	@ManyToOne(fetch = FetchType.LAZY, 
+		       cascade =
+	       {
+	    		   CascadeType.MERGE,
+	               CascadeType.REMOVE
+	       }) @JoinColumn
 	private Enseignant enseignant;
-	@ManyToOne @JoinColumn
+	@ManyToOne(fetch = FetchType.LAZY, 
+		       cascade =
+	       {
+	    		   CascadeType.MERGE,
+	               CascadeType.REMOVE
+	       }) @JoinColumn
 	private Semestre semestre;
 	private static final long serialVersionUID = 1L;
-
+	
 	public Module(String nom, Filliere filliere, Enseignant enseignant, Semestre semestre) {
 		super();
 		this.nom = nom;
@@ -29,7 +44,7 @@ public class Module implements Serializable {
 		this.enseignant = enseignant;
 		this.semestre = semestre;
 	}
-	
+
 	public Module() {
 		super();
 	}
@@ -65,7 +80,7 @@ public class Module implements Serializable {
 	public void setEnseignant(Enseignant enseignant) {
 		this.enseignant = enseignant;
 	}
-	
+
 	public Semestre getSemestre() {
 		return semestre;
 	}
@@ -73,7 +88,5 @@ public class Module implements Serializable {
 	public void setSemestre(Semestre semestre) {
 		this.semestre = semestre;
 	}
-	
-	
    
 }

@@ -31,7 +31,7 @@ public class EtudiantDAO {
 	public void mettreAjour(Etudiant e)
 	{
 		
-		Etudiant es = em.find(Etudiant.class, e.getIdEtudiant());
+		Etudiant es = em.find(Etudiant.class, e.getId());
 		em.getTransaction().begin();
 		em.remove(es);
 		em.getTransaction().commit();
@@ -44,7 +44,7 @@ public class EtudiantDAO {
 	public void supprimer(Etudiant e)
 	{
 		
-		Etudiant es = em.find(Etudiant.class, e.getIdEtudiant());
+		Etudiant es = em.find(Etudiant.class, e.getId());
 		em.getTransaction().begin();
 		em.remove(es);
 		em.getTransaction().commit();

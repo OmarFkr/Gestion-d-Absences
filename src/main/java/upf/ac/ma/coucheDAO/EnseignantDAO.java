@@ -32,7 +32,7 @@ public class EnseignantDAO {
 	public void mettreAjour(Enseignant e)
 	{
 		
-		Enseignant es = em.find(Enseignant.class, e.getIdEnseignant());
+		Enseignant es = em.find(Enseignant.class, e.getId());
 		em.getTransaction().begin();
 		em.remove(es);
 		em.getTransaction().commit();
@@ -45,7 +45,7 @@ public class EnseignantDAO {
 	public void supprimer(Enseignant e)
 	{
 		
-		Enseignant es = em.find(Enseignant.class, e.getIdEnseignant());
+		Enseignant es = em.find(Enseignant.class, e.getId());
 		em.getTransaction().begin();
 		em.remove(es);
 		em.getTransaction().commit();
