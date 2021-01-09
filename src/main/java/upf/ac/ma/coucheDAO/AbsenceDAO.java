@@ -25,9 +25,6 @@ import upf.ac.ma.entity.Module;
 import upf.ac.ma.entity.Promotion;
 
 public class AbsenceDAO {
-
-	EntityManagerFactory emf = Persistence.createEntityManagerFactory("Gestion_d_Absences");
-	EntityManager em 		 = emf.createEntityManager();
 	
 	@Autowired
 	AbsenceRepository absenceRepo;
@@ -147,13 +144,11 @@ public class AbsenceDAO {
 		return classement;
 	}
 	
-	
 	List<Absence> getAllAbsences(Etudiant e)
 	{
 		List<Absence> listAbsences = absenceRepo.findAllByIdEtudiant(e.getId());
 		return listAbsences;
 	}
-	
 	
 	List<Absence> getAbsencesSemestre(String semestre)
 	{
@@ -195,23 +190,19 @@ public class AbsenceDAO {
 			
 		return listAbsence;
 	}
-	
-	
+		
 	public void ajouter(Absence a)
 	{
 		absenceRepo.save(a);
 	}
 	
 	public Absence recuperer(Long id)
-	{
-		
+	{	
 		return absenceRepo.findById(id).get();
 	}
-	
-	
-	public void supprimer(Absence a)
-	{
 		
+	public void supprimer(Absence a)
+	{	
 		absenceRepo.delete(a);
 	}
 	
